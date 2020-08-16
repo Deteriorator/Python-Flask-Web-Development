@@ -16,6 +16,7 @@ from flask import (
 )
 from urllib.parse import urlparse, urljoin
 from jinja2.utils import generate_lorem_ipsum
+from jinja2 import escape
 import os
 
 app = Flask(__name__)
@@ -33,11 +34,11 @@ def hello():
     name = request.args.get('name')
     if name is None:
         name = request.cookies.get('name', 'Human')
-        respones = '<h1>Hello, %s</h1>' % name
-        if 'logged_in' in session:
-            respones += '[Authenticated]'
-        else:
-            respones += '[Not Authenticated]'
+    respones = '<h1>Hello, %s</h1>' % escape(name)
+    if 'logged_in' in session:
+        respones += '[Authenticated]'
+    else:
+        respones += '[Not Authenticated]'
     return respones
 
 
