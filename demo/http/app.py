@@ -74,5 +74,13 @@ def admin():
     return 'Welcome to admin page.'
 
 
+@app.route('/logout')
+def logout():
+    """ simulate user logout """
+    if 'logged_in' in session:
+        session.pop('logged_in')
+    return redirect(url_for('hello'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
