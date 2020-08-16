@@ -11,7 +11,7 @@
 -------------------------------------------------------------------------------
 """
 
-from flask import Flask, redirect, url_for, abort
+from flask import Flask, redirect, url_for, abort, make_response, request
 
 app = Flask(__name__)
 
@@ -21,9 +21,13 @@ def hi():
     return redirect(url_for('hello'))
 
 
+@app.route('/')
 @app.route('/hello')
 def hello():
-    return '<h1>Hello</h1>'
+    name = request.args.get('name')
+    if name is None:
+        name = request.cookies.get('name', 'Human')
+    return '<h1>Hello, %s</h1>' % name
 
 
 @app.route('/brew/<drink>')
@@ -37,6 +41,13 @@ def teapot(drink):
 @app.route('/404')
 def not_found():
     abort(404)
+
+
+@app.route('/set/<name>')
+def set_cookie(name):
+    response = make_response(redirect(url_for('hello')))
+    response.set_cookie('name', name)
+    return response
 
 
 if __name__ == '__main__':
