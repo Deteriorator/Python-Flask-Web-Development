@@ -48,5 +48,20 @@ def watchlist():
     return render_template('watchlist.html', user=user, movies=movies)
 
 
+@app.context_processor
+def inject_foo():
+    foo = 'I am foo.'
+    return dict(foo=foo)
+
+
+"""
+def inject_foo():
+    foo = 'I am foo.'
+    return dict(foo=foo)
+app.context_processor(inject_foo)
+
+app.context_processor(lambda: dict(foo='I am foo.'))
+"""
+
 if __name__ == '__main__':
     app.run(debug=True)
