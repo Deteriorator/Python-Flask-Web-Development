@@ -82,5 +82,31 @@ def logout():
     return redirect(url_for('hello'))
 
 
+# redirect to last page
+@app.route('/foo')
+def foo():
+    return '<h1>Foo page</h1><a href="%s">Do something and redirect</a>' \
+           % url_for('do_something', next=request.full_path)
+
+
+@app.route('/bar')
+def bar():
+    return '<h1>Bar page</h1><a href="%s">Do something and redirect</a>' \
+           % url_for('do_something', next=request.full_path)
+
+
+@app.route('/do-something')
+def do_something():
+    # do something here
+    return request_back()
+
+
+def request_back(defult='hello', **kwargs):
+    for target in request.args.get('next'), request.referrer:
+        if target:
+            return redirect(target)
+    return redirect(url_for(defult, **kwargs))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
