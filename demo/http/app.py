@@ -11,9 +11,13 @@
 -------------------------------------------------------------------------------
 """
 
-from flask import Flask, redirect, url_for, abort, make_response, request
+from flask import (
+    Flask, redirect, url_for, abort, make_response, request, session
+)
+import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(16)
 
 
 @app.route('/hi')
@@ -27,7 +31,12 @@ def hello():
     name = request.args.get('name')
     if name is None:
         name = request.cookies.get('name', 'Human')
-    return '<h1>Hello, %s</h1>' % name
+        respones = '<h1>Hello, %s</h1>' % name
+        if 'logged_in' in session:
+            respones += '[Authenticated]'
+        else:
+            respones += '[Not Authenticated]'
+    return respones
 
 
 @app.route('/brew/<drink>')
@@ -48,6 +57,12 @@ def set_cookie(name):
     response = make_response(redirect(url_for('hello')))
     response.set_cookie('name', name)
     return response
+
+
+@app.route('/login')
+def login():
+    session['logged_in'] = True
+    return redirect(url_for('hello'))
 
 
 if __name__ == '__main__':
