@@ -63,5 +63,16 @@ app.context_processor(inject_foo)
 app.context_processor(lambda: dict(foo='I am foo.'))
 """
 
+
+@app.template_global()
+def bar():
+    return 'I an bar'
+
+
+"""
+app.add_template_global（your_global_function）
+"""
+
+
 if __name__ == '__main__':
     app.run(debug=True)
