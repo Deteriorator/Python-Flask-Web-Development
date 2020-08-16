@@ -61,8 +61,17 @@ def set_cookie(name):
 
 @app.route('/login')
 def login():
+    """ simulate login action """
     session['logged_in'] = True
     return redirect(url_for('hello'))
+
+
+@app.route('/admin')
+def admin():
+    """ simulate admin management page """
+    if 'logged_in' not in session:
+        abort(403)
+    return 'Welcome to admin page.'
 
 
 if __name__ == '__main__':
