@@ -74,5 +74,11 @@ app.add_template_global（your_global_function）
 """
 
 
+@app.route('/hello')
+def hello():
+    text = Markup('<h1>Hello, Flask!</h1>')
+    return render_template('index.html', text=text)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
