@@ -94,5 +94,11 @@ def baz(n):
     return False
 
 
+@app.route('/flash')
+def just_flash():
+    flash('I am flash, who is looking for me?')
+    return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
