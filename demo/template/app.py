@@ -80,5 +80,11 @@ def hello():
     return render_template('index.html', text=text)
 
 
+@app.template_filter()
+def musical(s):
+    """ user define filter """
+    return s + Markup(' &#9835;')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
