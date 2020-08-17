@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import qux %}
+{% from 'macros.html' import static_file %}
 {% block content %}
     {% set name='baz' %}
     <h1>Template</h1>
@@ -11,3 +12,22 @@
         <li>Macro: {{ qux(amount=5) }}</li>
     </ul>
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+{% endblock %}
+
+static_file('css', 'https://maxcdn.../css/bootstrap.min.css', local=False)
+<!--    {% block styles1 %}-->
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">-->
+<!--    {% endblock %}-->
+<!--    {% block scripts1 %}-->
+<!--    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>-->
+<!--    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>-->
+<!--    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>-->
+<!--    {% endblock %}-->
