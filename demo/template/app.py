@@ -86,5 +86,13 @@ def musical(s):
     return s + Markup(' &#9835;')
 
 
+@app.template_test()
+def baz(n):
+    """ a user define template test """
+    if n == 'baz':
+        return True
+    return False
+
+
 if __name__ == '__main__':
     app.run(debug=True)
