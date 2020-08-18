@@ -18,6 +18,7 @@ from flask import Flask, render_template, flash, redirect, url_for, request, sen
 from flask_ckeditor import CKEditor, upload_success, upload_fail
 from flask_wtf.csrf import validate_csrf
 from wtforms import ValidationError
+from flask_dropzone import Dropzone
 from forms import LoginForm
 
 app = Flask(__name__)
@@ -47,6 +48,7 @@ app.config['DROPZONE_MAX_FILE_SIZE'] = 3
 app.config['DROPZONE_MAX_FILES'] = 30
 
 ckeditor = CKEditor(app)
+dropzone = Dropzone(app)
 
 
 @app.route('/', methods=['GET', 'POST'])

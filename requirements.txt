@@ -3,3 +3,6 @@ flask-wtf==0.14.3
 WTForms==2.3.3
 Flask-CKEditor==0.4.0
 werkzeug==1.0.1
+flask-dropzone==1.5.4
+flask-mail==0.9.1
+email-validator==1.1.1
