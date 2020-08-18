@@ -49,10 +49,25 @@ app.config['DROPZONE_MAX_FILES'] = 30
 ckeditor = CKEditor(app)
 
 
-@app.route('/basic')
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
+
+
+@app.route('/basic', methods=['GET', 'POST'])
 def basic():
     form = LoginForm()
     return render_template('basic.html', form=form)
+
+
+@app.route('/bootstrap', methods=['GET', 'POST'])
+def bootstrap():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        flash('Welcome home, %s!' % username)
+        return redirect(url_for('index'))
+    return render_template('bootstrap.html', form=form)
 
 
 if __name__ == '__main__':
