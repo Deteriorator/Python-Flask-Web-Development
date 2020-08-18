@@ -57,6 +57,11 @@ def index():
 @app.route('/basic', methods=['GET', 'POST'])
 def basic():
     form = LoginForm()
+    if form.validate_on_submit():
+        # if request.method == 'POST' and form.validate():
+        username = form.username.data
+        flash('Welcome home, %s!' % username)
+        return redirect(url_for('index'))
     return render_template('basic.html', form=form)
 
 

@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Title
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Forms</h1>
+<ul>
+    <li><a href="{{ url_for('basic') }}">Basic Form</a></li>
+    <li><a href="{{ url_for('bootstrap') }}">Bootstrap Style Form</a></li>
+</ul>
+{% endblock %}
