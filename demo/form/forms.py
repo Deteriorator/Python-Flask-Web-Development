@@ -13,7 +13,7 @@
 from flask_ckeditor import CKEditorField
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import StringField, PasswordField, BooleanField, IntegerField,TextAreaField, SubmitField, MultipleFileField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, SubmitField, MultipleFileField
 from wtforms.validators import DataRequired, Length, ValidationError, Email
 
 
@@ -22,3 +22,12 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(8, 128)])
     remember = BooleanField('Remember me')
     submit = SubmitField('Log in')
+
+
+class FortyTwoForm(FlaskForm):
+    answer = IntegerField('The Number')
+    submit = SubmitField()
+
+    def validate_answer(form, field):
+        if field.data != 42:
+            raise ValidationError('Must be 42.')
