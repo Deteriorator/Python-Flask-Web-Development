@@ -31,3 +31,10 @@ class FortyTwoForm(FlaskForm):
     def validate_answer(form, field):
         if field.data != 42:
             raise ValidationError('Must be 42.')
+
+
+class UploadForm(FlaskForm):
+    photo = FileField('Upload Image', validators=[
+        FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'])
+    ])
+    submit = SubmitField()
