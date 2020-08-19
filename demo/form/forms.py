@@ -49,3 +49,10 @@ class RichTextForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(1, 50)])
     body = CKEditorField('Body', validators=[DataRequired()])
     submit = SubmitField('Publish')
+
+
+class NewPostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired(), Length(1, 50)])
+    body = TextAreaField('Body', validators=[DataRequired()])
+    save = SubmitField('Save')  # 保存按钮
+    publish = SubmitField('Publish')  # 发布按钮

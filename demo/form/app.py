@@ -19,7 +19,7 @@ from flask_ckeditor import CKEditor, upload_success, upload_fail
 from flask_wtf.csrf import validate_csrf
 from wtforms import ValidationError
 from flask_dropzone import Dropzone
-from forms import LoginForm, UploadForm, FortyTwoForm, MultiUploadForm, RichTextForm
+from forms import LoginForm, UploadForm, FortyTwoForm, MultiUploadForm, RichTextForm, NewPostForm
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'secret string')
@@ -170,6 +170,30 @@ def integrate_ckeditor():
         flash('Your post is published!')
         return render_template('post.html', title=title, body=body)
     return render_template('ckeditor.html', form=form)
+
+
+@app.route('/two-submits', methods=['GET', 'POST'])
+def two_submits():
+    form = NewPostForm()
+    if form.validate_on_submit():
+        if form.save.data:
+            # save it...
+            flash('You click the "Save" button.')
+        elif form.publish.data:
+            # publish it...
+            flash('You click the "Publish" button.')
+        return redirect(url_for('index'))
+    return render_template('2submit.html', form=form)
+
+
+@app.route('/html', methods=['GET', 'POST'])
+def html():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        flash('Welcome home, %s!' % username)
+        return redirect(url_for('index'))
+    return render_template('pure_html.html', form=form)
 
 
 if __name__ == '__main__':
