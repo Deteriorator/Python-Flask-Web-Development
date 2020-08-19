@@ -247,5 +247,34 @@ def handle_register():
     return render_template('2form2view.html', signin_form=signin_form, register_form=register_form)
 
 
+@app.route('/dropzone-upload', methods=['GET', 'POST'])
+def dropzone_upload():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            return 'This field is required.', 400
+        f = request.files.get('file')
+
+        if f and allowed_file(f.filename):
+            filename = random_filename(f.filename)
+            f.save(os.path.join(
+                app.config['UPLOAD_PATH'], filename
+            ))
+        else:
+            return 'Invalid file type.', 400
+    return render_template('dropzone.html')
+
+
+# handle image upload for ckeditor
+@app.route('/upload-ck', methods=['POST'])
+def upload_for_ckeditor():
+    f = request.files.get('upload')
+    if not allowed_file(f.filename):
+        return upload_fail('Image only!')
+    f.save(os.path.join(app.config['UPLOAD_PATH'], f.filename))
+    url = url_for('get_file', filename=f.filename)
+    return upload_success(url, f.filename)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
