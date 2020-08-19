@@ -19,7 +19,7 @@ from flask_ckeditor import CKEditor, upload_success, upload_fail
 from flask_wtf.csrf import validate_csrf
 from wtforms import ValidationError
 from flask_dropzone import Dropzone
-from forms import LoginForm, UploadForm, FortyTwoForm, MultiUploadForm, RichTextForm, NewPostForm, SigninForm, RegisterForm
+from forms import LoginForm, UploadForm, FortyTwoForm, MultiUploadForm, RichTextForm, NewPostForm, SigninForm, RegisterForm, SigninForm2, RegisterForm2
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'secret string')
@@ -213,6 +213,38 @@ def multi_form():
         return redirect(url_for('index'))
 
     return render_template('2form.html', signin_form=signin_form, register_form=register_form)
+
+
+@app.route('/multi-form-multi-view')
+def multi_form_multi_view():
+    signin_form = SigninForm2()
+    register_form = RegisterForm2()
+    return render_template('2form2view.html', signin_form=signin_form, register_form=register_form)
+
+
+@app.route('/handle-signin', methods=['POST'])
+def handle_signin():
+    signin_form = SigninForm2()
+    register_form = RegisterForm2()
+
+    if signin_form.validate_on_submit():
+        username = signin_form.username.data
+        flash('%s, you just submit the Signin Form.' % username)
+        return redirect(url_for('index'))
+
+    return render_template('2form2view.html', signin_form=signin_form, register_form=register_form)
+
+
+@app.route('/handle-register', methods=['POST'])
+def handle_register():
+    signin_form = SigninForm2()
+    register_form = RegisterForm2()
+
+    if register_form.validate_on_submit():
+        username = register_form.username.data
+        flash('%s, you just submit the Register Form.' % username)
+        return redirect(url_for('index'))
+    return render_template('2form2view.html', signin_form=signin_form, register_form=register_form)
 
 
 if __name__ == '__main__':
