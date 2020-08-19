@@ -38,3 +38,8 @@ class UploadForm(FlaskForm):
         FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'])
     ])
     submit = SubmitField()
+
+
+class MultiUploadForm(FlaskForm):
+    photo = MultipleFileField('Upload Image', validators=[DataRequired()])
+    submit = SubmitField()

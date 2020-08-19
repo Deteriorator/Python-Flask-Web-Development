@@ -19,7 +19,7 @@ from flask_ckeditor import CKEditor, upload_success, upload_fail
 from flask_wtf.csrf import validate_csrf
 from wtforms import ValidationError
 from flask_dropzone import Dropzone
-from forms import LoginForm, UploadForm, FortyTwoForm
+from forms import LoginForm, UploadForm, FortyTwoForm, MultiUploadForm
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'secret string')
@@ -118,6 +118,47 @@ def random_filename(filename):
     ext = os.path.splitext(filename)[1]
     new_filename = uuid.uuid4().hex + ext
     return new_filename
+
+
+@app.route('/multi-upload', methods=['GET', 'POST'])
+def multi_upload():
+    form = MultiUploadForm()
+
+    if request.method == 'POST':
+        filenames = []
+
+        # check csrf token
+        try:
+            validate_csrf(form.csrf_token.data)
+        except ValidationError:
+            flash('CSRF token error.')
+            return redirect(url_for('multi_upload'))
+
+        # check if the post request has the file part
+        if 'photo' not in request.files:
+            flash('This field is required.')
+            return redirect(url_for('multi_upload'))
+
+        for f in request.files.getlist('photo'):
+            # if user does not select file, browser also
+            # submit a empty part without filename
+            # if f.filename == '':
+            #     flash('No selected file.')
+            #    return redirect(url_for('multi_upload'))
+            # check the file extension
+            if f and allowed_file(f.filename):
+                filename = random_filename(f.filename)
+                f.save(os.path.join(
+                    app.config['UPLOAD_PATH'], filename
+                ))
+                filenames.append(filename)
+            else:
+                flash('Invalid file type.')
+                return redirect(url_for('multi_upload'))
+        flash('Upload success.')
+        session['filenames'] = filenames
+        return redirect(url_for('show_images'))
+    return render_template('upload.html', form=form)
 
 
 if __name__ == '__main__':
