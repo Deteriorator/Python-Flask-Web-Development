@@ -19,7 +19,7 @@ from flask_ckeditor import CKEditor, upload_success, upload_fail
 from flask_wtf.csrf import validate_csrf
 from wtforms import ValidationError
 from flask_dropzone import Dropzone
-from forms import LoginForm, UploadForm, FortyTwoForm, MultiUploadForm
+from forms import LoginForm, UploadForm, FortyTwoForm, MultiUploadForm, RichTextForm
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'secret string')
@@ -159,6 +159,17 @@ def multi_upload():
         session['filenames'] = filenames
         return redirect(url_for('show_images'))
     return render_template('upload.html', form=form)
+
+
+@app.route('/ckeditor', methods=['GET', 'POST'])
+def integrate_ckeditor():
+    form = RichTextForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        body = form.body.data
+        flash('Your post is published!')
+        return render_template('post.html', title=title, body=body)
+    return render_template('ckeditor.html', form=form)
 
 
 if __name__ == '__main__':
