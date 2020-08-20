@@ -62,7 +62,11 @@ class DeleteNoteForm(FlaskForm):
 
 
 @app.cli.command()
-def initdb():
+@click.option('--drop', is_flag=True, help='Create after drop.')
+def initdb(drop):
+    """Initialize the database."""
+    if drop:
+        db.drop_all()
     db.create_all()
     click.echo('Initialized database.')
 
@@ -167,6 +171,76 @@ class Song(db.Model):
 
     def __repr__(self):
         return '<Song %r>' % self.name
+
+
+# many to one
+class Citizen(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(70), unique=True)
+    city_id = db.Column(db.Integer, db.ForeignKey('city.id'))
+    city = db.relationship('City')  # scalar
+
+    def __repr__(self):
+        return '<Citizen %r>' % self.name
+
+
+class City(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), unique=True)
+
+    def __repr__(self):
+        return '<City %r>' % self.name
+
+
+# one to one
+class Country(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), unique=True)
+    capital = db.relationship('Capital', uselist=False)  # collection -> scalar
+
+    def __repr__(self):
+        return '<Country %r>' % self.name
+
+
+class Capital(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), unique=True)
+    country_id = db.Column(db.Integer, db.ForeignKey('country.id'))
+    country = db.relationship('Country')  # scalar
+
+    def __repr__(self):
+        return '<Capital %r>' % self.name
+
+
+# many to many with association table
+association_table = db.Table('association',
+                             db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
+                             db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id'))
+                             )
+
+
+class Student(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(70), unique=True)
+    grade = db.Column(db.String(20))
+    teachers = db.relationship('Teacher',
+                               secondary=association_table,
+                               back_populates='students')  # collection
+
+    def __repr__(self):
+        return '<Student %r>' % self.name
+
+
+class Teacher(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(70), unique=True)
+    office = db.Column(db.String(20))
+    students = db.relationship('Student',
+                               secondary=association_table,
+                               back_populates='teachers')  # collection
+
+    def __repr__(self):
+        return '<Teacher %r>' % self.name
 
 
 if __name__ == '__main__':
