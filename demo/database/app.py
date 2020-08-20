@@ -113,5 +113,10 @@ def delete_note(note_id):
     return redirect(url_for('index'))
 
 
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, Note=Note)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
