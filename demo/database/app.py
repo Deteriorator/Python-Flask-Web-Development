@@ -118,5 +118,22 @@ def make_shell_context():
     return dict(db=db, Note=Note)
 
 
+class Author(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(70), unique=True)
+    phone = db.Column(db.String(20))
+    article = db.relationship('Article')
+
+
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), index=True)
+    body = db.Column(db.Text)
+    author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
+
+    def __repr__(self):
+        return '<Article %r>' % self.title
+
+
 if __name__ == '__main__':
     app.run(debug=True)
