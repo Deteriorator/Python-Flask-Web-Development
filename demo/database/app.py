@@ -243,5 +243,20 @@ class Teacher(db.Model):
         return '<Teacher %r>' % self.name
 
 
+# cascade
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50))
+    body = db.Column(db.Text)
+    comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')  # collection
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    post = db.relationship('Post', back_populates='comments')  # scalar
+
+
 if __name__ == '__main__':
     app.run(debug=True)
