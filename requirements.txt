@@ -6,3 +6,7 @@ werkzeug==1.0.1
 flask-dropzone==1.5.4
 flask-mail==0.9.1
 email-validator==1.1.1
+SQLAlchemy==1.2.7
+Flask-SQLAlchemy==2.3.2
+Alembic==0.9.9
+Flask-Migrate==2.1.1
