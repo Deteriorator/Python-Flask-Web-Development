@@ -10,3 +10,6 @@ SQLAlchemy==1.2.8
 Flask-SQLAlchemy==2.3.2
 Alembic==0.9.9
 Flask-Migrate==2.1.1
+Flask-Mail==0.9.1
+SendGrid-Python==0.1.1
+python-dotenv==0.14.0
