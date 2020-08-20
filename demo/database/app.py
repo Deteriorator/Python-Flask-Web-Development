@@ -135,5 +135,39 @@ class Article(db.Model):
         return '<Article %r>' % self.title
 
 
+class Writer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(70), unique=True)
+    books = db.relationship('Book', back_populates='writer')
+
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), index=True)
+    writer_id = db.Column(db.Integer, db.ForeignKey('writer.id'))
+    writer = db.relationship('Writer', back_populates='books')
+
+    def __repr__(self):
+        return '<Book %r>' % self.name
+
+
+class Singer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(70), unique=True)
+    songs = db.relationship('Song', backref='singer')
+
+    def __repr__(self):
+        return '<Singer %r>' % self.name
+
+
+class Song(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), index=True)
+    singer_id = db.Column(db.Integer, db.ForeignKey('singer.id'))
+
+    def __repr__(self):
+        return '<Song %r>' % self.name
+
+
 if __name__ == '__main__':
     app.run(debug=True)
