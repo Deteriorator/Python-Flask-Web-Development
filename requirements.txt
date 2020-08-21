@@ -13,3 +13,7 @@ Flask-Migrate==2.1.1
 Flask-Mail==0.9.1
 SendGrid-Python==0.1.1
 python-dotenv==0.14.0
+Bootstrap-Flask==1.1.0
+Flask-Moment==0.6.0
+Faker==0.8.13
+Flask-DebugToolbar==0.10.1
