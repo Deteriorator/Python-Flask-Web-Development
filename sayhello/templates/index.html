@@ -20,7 +20,8 @@
                     <small data-toggle="tooltip" data-placement="top"
                            data-timestamp="{{ message.timestamp.strftime('%Y-%m-%dT%H:%M:%SZ') }}"
                            data-delay="500">
-                        {{ moment(message.timestamp).fromNow(refresh=True) }}
+                        {{ moment(message.timestamp).fromNow(refresh=False) }}
+                        {{ message.timestamp }}
                     </small>
                 </div>
                 <p class="mb-1">{{ message.body }}</p>
