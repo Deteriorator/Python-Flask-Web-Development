@@ -17,3 +17,5 @@ Bootstrap-Flask==1.1.0
 Flask-Moment==0.6.0
 Faker==0.8.13
 Flask-DebugToolbar==0.10.1
+Flask-Login==0.4.1
+Unidecode==1.0.22
