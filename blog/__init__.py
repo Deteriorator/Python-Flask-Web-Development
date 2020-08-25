@@ -31,7 +31,7 @@ basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv('FLASK_CONFIG', 'development')
-    app = Flask('Blog')
+    app = Flask(__name__)
     app.config.from_object(config[config_name])
 
     register_blueprints(app)
@@ -39,6 +39,8 @@ def create_app(config_name=None):
     register_commands(app)
 
     register_extensions(app)
+
+    register_template_context(app)
 
     return app
 
@@ -125,6 +127,15 @@ def register_commands(app):
         click.echo('Generating %d comments...' % comment)
         fake_comments(comment)
         click.echo('Done.')
+
+
+def register_template_context(app):
+
+    @app.context_processor
+    def make_template_context():
+        admin = Admin.query.first()
+        categories = Category.query.order_by(Category.name).all()
+        return dict(admin=admin, categories=categories)
 
 
 if __name__ == '__main__':
