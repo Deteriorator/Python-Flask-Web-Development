@@ -11,14 +11,20 @@
 -------------------------------------------------------------------------------
 """
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, current_app, request
+
+from blog.models import Post
 
 blog_bp = Blueprint('blog', __name__)
 
 
 @blog_bp.route('/')
 def index():
-    return render_template('blog/index.html')
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['BLUELOG_POST_PER_PAGE']
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
+    posts = pagination.items
+    return render_template('blog/index.html', pagination=pagination, posts=posts)
 
 
 @blog_bp.route('/about')
