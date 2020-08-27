@@ -19,3 +19,7 @@ Faker==0.8.13
 Flask-DebugToolbar==0.10.1
 Flask-Login==0.4.1
 Unidecode==1.0.22
+# Pillow==5.1.0
+# Flask-Avatars==0.2
+# Whoosh==2.7.4
+# Flask-Whooshee==0.6.0
