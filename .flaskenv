@@ -1,2 +1,2 @@
-FLASK_APP=blogapp
+FLASK_APP=Todoism:create_app
 FLASK_ENV=development

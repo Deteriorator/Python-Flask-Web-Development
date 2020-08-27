@@ -23,3 +23,9 @@ Unidecode==1.0.22
 # Flask-Avatars==0.2
 # Whoosh==2.7.4
 # Flask-Whooshee==0.6.0
+Flask-Babel==0.11.2
+Babel==2.5.3
+pytz==2018.4
+Flask-CORS==3.0.4
+Webargs==3.0.0
+Httpie==0.9.9
