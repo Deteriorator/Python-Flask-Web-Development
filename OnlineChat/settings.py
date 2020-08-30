@@ -25,9 +25,6 @@ else:
 
 
 class BaseConfig:
-    CATCHAT_MESSAGE_PER_PAGE = 30
-    CATCHAT_ADMIN_EMAIL = os.getenv('CATCHAT_ADMIN_EMAIL', 'admin@helloflask.com')
-
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev key')
 
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', prefix + os.path.join(basedir, 'data.db'))
